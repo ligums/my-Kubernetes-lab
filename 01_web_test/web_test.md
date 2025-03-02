@@ -9,16 +9,8 @@ This Kubernetes Deployment configures two Nginx pods that share files via an NFS
 This setup allows both Nginx pods to access and serve the same content from the shared NFS storage.
 
 ```bash
-kubectl create configmap web-nfs-env --from-env-file=.env
 kubectl apply -f deployment.yaml
 kubectl apply -f service.yaml
-```
-
-# Example `.env` file
-
-```yml
-NFS_SERVER: 192.168.1.1
-NFS_PATH: /your/data
 ```
 
 # Clean up resources
