@@ -13,22 +13,9 @@ This repo documents my journey of setting up and using **Talos OS** with **Kuber
 ## My Setup
 
 - **OS**: Talos OS
-- **Kubernetes**: (Version used)
-- **Cloud Provider**: (e.g., AWS, GCP, self-hosted)
+- **Kubernetes**: v1.32.2
+- **Cloud Provider**: self-hosted on proxmox
 - **Tools**: `talosctl`, `kubectl`
-
-## Key Steps
-
-1. **Installed Talos OS**: Set up Talos OS on my nodes and configured them via the Talos API.
-2. **Kubernetes Setup**: Initialized the Kubernetes cluster using Talos and deployed my first pods.
-3. **Networking**: Configured networking with a CNI plugin (e.g., Cilium).
-4. **Persistent Storage**: Integrated a storage solution like [Longhorn](https://longhorn.io/).
-
-## Challenges & Solutions
-
-- **Networking Issues**: Resolved by choosing the right CNI plugin (Cilium).
-- **Persistent Storage**: Solved using [Longhorn](https://longhorn.io/).
-- **Automation**: Wrote scripts to automate Talos OS setup.
 
 ## Resources
 
