@@ -20,3 +20,11 @@ kubectl apply -f service.yaml
 NFS_SERVER: 192.168.1.1
 NFS_PATH: /your/data
 ```
+
+# Clean up resources
+
+Delete the following resources using `kubectl`:
+```bash
+$ k delete svc web-nfs-service
+$ kubectl delete deployment web-nfs-test
+```
