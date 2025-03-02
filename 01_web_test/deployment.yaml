@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-nfs-test
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web-nfs
+  template:
+    metadata:
+      labels:
+        app: web-nfs
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: nfs-volume
+          mountPath: /usr/share/nginx/html  # Path where Nginx serves files
+      volumes:
+      - name: nfs-volume
+        nfs:
+          server: 10.0.1.11
+          path: /mnt/storage/k-data
