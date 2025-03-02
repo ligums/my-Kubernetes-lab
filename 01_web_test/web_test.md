@@ -10,6 +10,8 @@ This setup allows both Nginx pods to access and serve the same content from the 
 
 ```bash
 kubectl create configmap web-nfs-env --from-env-file=.env
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
 ```
 
 # Example `.env` file
