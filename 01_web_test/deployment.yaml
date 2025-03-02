@@ -20,8 +20,11 @@ spec:
         volumeMounts:
         - name: nfs-volume
           mountPath: /usr/share/nginx/html  # Path where Nginx serves files
+        envFrom:
+        - configMapRef:
+            name: web-nfs-env  # Referencing the ConfigMap
       volumes:
       - name: nfs-volume
         nfs:
-          server: 10.0.1.11
-          path: /mnt/storage/k-data
+          server: $(NFS_SERVER)  # Using the environment variable from ConfigMap
+          path: $(NFS_PATH)      # Using the environment variable from ConfigMap
