@@ -1,3 +1,6 @@
+Here is the updated code block:
+
+```md 00_instalation/install.md (1-42)
 ### Installation of Talos Cluster
 
 #### Generate Configuration Files
@@ -40,3 +43,15 @@ kubectl label nodes <node-name> role=worker
 ```
 
 Note: Replace `<node-name>` with the actual name of the node you want to label.
+
+**Prerequisites:** Make sure you have `kubectl` and `talosctl` installed before running these commands.
+```bash
+# Install kubectl
+curl -sfL https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://api.github.com/repos/kubernetes/kubernetes/releases/latest | grep tag_name | cut -d'"' -f4)/bin/linux/amd64/kubectl into /usr/local/bin/kubectl
+chmod +x /usr/local/bin/kubectl
+
+# Install talosctl
+curl -sfL https://github.com/talos-systems/talos/releases/download/v1.2.0/talosctl-linux-amd64.tar.gz | tar xvf - && sudo mv talosctl-linux-amd64 /usr/local/bin/
+chmod +x /usr/local/bin/talosctl
+```
+**Note:** Replace the versions of `kubectl` and `talosctl` with the latest ones if available.
