@@ -6,4 +6,4 @@ data:
   script.sh: |
     #!/bin/bash
     DATE=$(date +"%Y-%m-%d_%H-%M")
-    touch "/mnt/nfs/${DATE}.txt"
+    touch "/mnt/nfs/cronjob/${DATE}.txt"

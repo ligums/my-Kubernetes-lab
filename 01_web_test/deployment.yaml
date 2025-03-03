@@ -27,4 +27,4 @@ spec:
       - name: nfs-volume
         nfs:
           server: 10.0.1.11  
-          path: /mnt/storage/k-data
+          path: /mnt/storage/k-data/web
