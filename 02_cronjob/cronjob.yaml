@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: my-cronjob
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: my-container
+            image: ubuntu:latest
+            command: ["/bin/bash", "/script/script.sh"]
+            volumeMounts:
+            - name: script-volume
+              mountPath: /script/script.sh  
+              subPath: script.sh
+            - name: nfs-mount
+              mountPath: /mnt/nfs
+          restartPolicy: OnFailure 
+          volumes:
+          - name: script-volume
+            configMap:
+              name: my-script-config
+              defaultMode: 0777
+          - name: nfs-mount
+            nfs:
+              server: 10.0.1.11
+              path: /mnt/storage/k-data
+              readOnly: false

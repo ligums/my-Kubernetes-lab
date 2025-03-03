@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-script-config
+data:
+  script.sh: |
+    #!/bin/bash
+    DATE=$(date +"%Y-%m-%d_%H-%M")
+    touch "/mnt/nfs/${DATE}.txt"
