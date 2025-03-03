@@ -1,49 +1,40 @@
-# Kubernetes CronJob and ConfigMap Explanation
+# Kubernetes CronJob: Timestamp File Creation
 
-## cronjob.yaml
-This file defines a **Kubernetes CronJob** that schedules a job to run every **5 minutes**.
+This Kubernetes **CronJob** configures a job to create timestamped files in an NFS-mounted directory every 5 minutes.
+
+- **CronJob**: Schedules a job to run at a specified interval, defined by the `schedule` parameter.
+- **JobTemplate**: Defines the job’s specification, including the container and volumes.
+- **Volumes**: The job uses a **ConfigMap** for the script and an **NFS volume** for persistent storage.
+
+The **CronJob** runs a **Bash script** that creates a timestamped file in the mounted NFS directory (`/mnt/nfs`).
 
 ### Key Components:
-- **apiVersion**: `batch/v1` (Defines it as a CronJob)
-- **kind**: `CronJob`
-- **metadata**: Sets the name to `my-cronjob`.
-- **spec**:
-  - **schedule**: `*/5 * * * *` (Runs every 5 minutes)
-  - **jobTemplate**:
-    - **template**:
-      - **containers**:
-        - Name: `my-container`
-        - Image: `ubuntu:latest`
-        - Command: `bash script.sh`
-      - **volumeMounts**:
-        - Mounts a **ConfigMap** (`my-script-config`) to `/script/script.sh`.
-        - Mounts an **NFS volume** at `/mnt/nfs`.
-      - **restartPolicy**: `OnFailure` (Restarts if it fails)
-  - **volumes**:
-    - **script-volume**: Uses the `my-script-config` ConfigMap.
-    - **nfs-mount**: Connects to an **NFS share** (`10.0.1.11:/mnt/storage/k-data`).
+1. **apiVersion**: `batch/v1` (indicates the resource type is CronJob)
+2. **kind**: `CronJob`
+3. **metadata**:
+   - **name**: `my-cronjob`
+4. **spec**:
+   - **schedule**: `*/5 * * * *` (runs every 5 minutes)
+   - **jobTemplate**:
+     - **template**:
+       - **containers**:
+         - **name**: `my-container`
+         - **image**: `ubuntu:latest`
+         - **command**: `bash script.sh`
+       - **volumeMounts**:
+         - **ConfigMap Volume**: Mounts `my-script-config` to `/script/script.sh`.
+         - **NFS Volume**: Mounts an NFS volume at `/mnt/nfs`.
+       - **restartPolicy**: `OnFailure` (restarts only if it fails)
+   - **volumes**:
+     - **script-volume**: ConfigMap (`my-script-config`)
+     - **nfs-mount**: NFS server (`10.0.1.11:/mnt/storage/k-data`)
 
----
+### ConfigMap:
+The `ConfigMap` stores the `script.sh` file that is executed by the CronJob. The script generates timestamped files at a specified path in the NFS volume.
 
-## configmap.yaml
-This file defines a **ConfigMap** named `my-script-config`, which stores a script (`script.sh`).
-
-### script.sh Functionality:
-- Uses **Bash** to create timestamped files in the **NFS mount**.
-- Steps:
-  1. Get the current date/time (`YYYY-MM-DD_HH-MM`).
-  2. Create an empty file with the timestamp (`/mnt/nfs/YYYY-MM-DD_HH-MM.txt`).
+**script.sh**:
 
 ```bash
 #!/bin/bash
 DATE=$(date +"%Y-%m-%d_%H-%M")
 touch "/mnt/nfs/${DATE}.txt"
-```
-
----
-
-## Summary
-- **The CronJob runs every 5 minutes**, executing the script.
-- **The script creates a timestamped file** in `/mnt/nfs`.
-- **Uses an NFS mount and a ConfigMap** to store the script and persist data.
-
