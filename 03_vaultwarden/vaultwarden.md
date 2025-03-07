@@ -1,1 +1,0 @@
-Deploy Vaultwarden on Kubernetes with high availability, using PostgreSQL as the database. The setup includes a Vaultwarden deployment, PostgreSQL StatefulSet, services, and Ingress for external access.
